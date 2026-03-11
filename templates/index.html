@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sentence Simplification for Dyslexic Readers</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=OpenDyslexic&family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>📚 Sentence Simplification System</h1>
+            <p class="subtitle">Making reading easier for Dyslexic Readers</p>
+        </header>
+
+        <div class="main-content">
+            <div class="card">
+                <h2>Enter Your Text</h2>
+                <p class="description">
+                    Paste or type a sentence below. Our AI will analyze it, identify complex words, 
+                    and provide a simplified version that's easier to read and understand.
+                </p>
+
+                {% if error %}
+                <div class="error-message">
+                    ⚠️ {{ error }}
+                </div>
+                {% endif %}
+
+                <form method="POST" action="/analyze">
+                    <div class="form-group">
+                        <label for="text">Your Sentence:</label>
+                        <textarea 
+                            id="text" 
+                            name="text" 
+                            rows="6" 
+                            placeholder="Example: The phenomenon of bioluminescence in marine organisms is a captivating example of nature's ingenuity."
+                            required
+                        ></textarea>
+                    </div>
+
+                    <button type="submit" class="btn-primary">
+                        Analyze & Simplify ✨
+                    </button>
+                </form>
+            </div>
+
+            <div class="info-card">
+                <h3>How It Works</h3>
+                <div class="steps">
+                    <div class="step">
+                        <span class="step-number">1</span>
+                        <div class="step-content">
+                            <h4>Enter Text</h4>
+                            <p>Type or paste your sentence</p>
+                        </div>
+                    </div>
+                    <div class="step">
+                        <span class="step-number">2</span>
+                        <div class="step-content">
+                            <h4>AI Analysis</h4>
+                            <p>Identifies complex words and difficulty level</p>
+                        </div>
+                    </div>
+                    <div class="step">
+                        <span class="step-number">3</span>
+                        <div class="step-content">
+                            <h4>Simplification</h4>
+                            <p>Creates an easier version to read</p>
+                        </div>
+                    </div>
+                    <div class="step">
+                        <span class="step-number">4</span>
+                        <div class="step-content">
+                            <h4>Audio Support</h4>
+                            <p>Listen to pronunciation</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <footer>
+            <p>Designed to improve reading accessibility for dyslexic readers</p>
+        </footer>
+    </div>
+</body>
+</html>

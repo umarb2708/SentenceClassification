@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Analysis Results - Sentence Simplification</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=OpenDyslexic&family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>📊 Analysis Results</h1>
+            <a href="/" class="back-link">← Analyze Another Sentence</a>
+        </header>
+
+        <div class="results-container">
+            <!-- Classification Card -->
+            <div class="card result-card">
+                <h2>Difficulty Classification</h2>
+                <div class="classification-badge {{ results.difficulty.lower() }}">
+                    {% if results.difficulty == "Easy" %}
+                        ✅ Easy
+                    {% elif results.difficulty == "Medium" %}
+                        ⚠️ Medium
+                    {% else %}
+                        🔴 Hard
+                    {% endif %}
+                </div>
+                <div class="metrics">
+                    <div class="metric">
+                        <span class="metric-label">Flesch Reading Ease</span>
+                        <span class="metric-value">{{ results.flesch_score }}</span>
+                    </div>
+                    <div class="metric">
+                        <span class="metric-label">Word Count</span>
+                        <span class="metric-value">{{ results.word_count }}</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Original Text Card -->
+            <div class="card result-card">
+                <h2>📝 Original Text</h2>
+                <div class="text-box original-text">
+                    {{ results.original_text }}
+                </div>
+                {% if results.audio_original %}
+                <div class="audio-section">
+                    <button class="btn-audio" onclick="playAudio('original')">
+                        🔊 Listen to Original
+                    </button>
+                    <audio id="audio-original" preload="none">
+                        <source src="data:audio/mp3;base64,{{ results.audio_original }}" type="audio/mp3">
+                    </audio>
+                </div>
+                {% endif %}
+            </div>
+
+            <!-- Complex Words Analysis Card -->
+            <div class="card result-card">
+                <h2>🔍 Complex Words Identified</h2>
+                <div class="text-box complex-words">
+                    <pre>{{ results.complex_words }}</pre>
+                </div>
+                {% if results.audio_complex_words %}
+                <div class="audio-section">
+                    <button class="btn-audio" onclick="playAudio('complex-words')">
+                        🔊 Listen to Complex Words
+                    </button>
+                    <audio id="audio-complex-words" preload="none">
+                        <source src="data:audio/mp3;base64,{{ results.audio_complex_words }}" type="audio/mp3">
+                    </audio>
+                </div>
+                {% endif %}
+            </div>
+
+            <!-- Simplified Text Card -->
+            <div class="card result-card highlight">
+                <h2>✨ Simplified Version</h2>
+                <div class="text-box simplified-text">
+                    {{ results.simplified_text }}
+                </div>
+                {% if results.audio_simplified %}
+                <div class="audio-section">
+                    <button class="btn-audio" onclick="playAudio('simplified')">
+                        🔊 Listen to Simplified Version
+                    </button>
+                    <audio id="audio-simplified" preload="none">
+                        <source src="data:audio/mp3;base64,{{ results.audio_simplified }}" type="audio/mp3">
+                    </audio>
+                </div>
+                {% endif %}
+            </div>
+
+            <!-- Comparison Section -->
+            <div class="card result-card">
+                <h2>📖 Side-by-Side Comparison</h2>
+                <div class="comparison-grid">
+                    <div class="comparison-item">
+                        <h3>Original</h3>
+                        <p>{{ results.original_text }}</p>
+                    </div>
+                    <div class="comparison-item">
+                        <h3>Simplified</h3>
+                        <p>{{ results.simplified_text }}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="actions">
+            <a href="/" class="btn-primary">Analyze Another Sentence</a>
+        </div>
+
+        <footer>
+            <p>Keep practicing to improve your reading skills! 💪</p>
+        </footer>
+    </div>
+
+    <script>
+        function playAudio(type) {
+            const audio = document.getElementById('audio-' + type);
+            if (audio) {
+                audio.play();
+            }
+        }
+    </script>
+</body>
+</html>
