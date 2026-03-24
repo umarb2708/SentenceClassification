@@ -63,15 +63,17 @@ def count_syllables(word):
     return count
 
 def classify_difficulty(text):
-    """Classify sentence difficulty based on readability metrics"""
+    """Classify sentence difficulty based on Flesch Reading Ease score"""
     flesch_score = calculate_flesch_reading_ease(text)
-    word_count = len(text.split())
-    avg_word_length = sum(len(word) for word in text.split()) / word_count if word_count > 0 else 0
     
-    # Classification logic
-    if flesch_score >= 70 and word_count <= 15 and avg_word_length < 5:
+    # Classification based on Flesch Reading Ease scale
+    # 70+: Easy (Fairly Easy and higher)
+    # 50-69: Medium (Standard to Fairly Difficult)
+    # Below 50: Hard (Difficult and Very Difficult)
+    
+    if flesch_score >= 70:
         return "Easy"
-    elif flesch_score >= 50 and word_count <= 25:
+    elif flesch_score >= 50:
         return "Medium"
     else:
         return "Hard"
