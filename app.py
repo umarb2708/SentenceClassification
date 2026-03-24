@@ -32,11 +32,11 @@ except Exception as e:
 
 def calculate_flesch_reading_ease(text):
     """Calculate Flesch Reading Ease score"""
-    sentences = len(re.findall(r'\w+[.!?]', text))
+    sentences = max(len(re.findall(r'[.!?]+', text)), 1)
     words = len(text.split())
     syllables = sum([count_syllables(word) for word in text.split()])
     
-    if sentences == 0 or words == 0:
+    if words == 0:
         return 0
     
     flesch_score = 206.835 - 1.015 * (words / sentences) - 84.6 * (syllables / words)
@@ -64,13 +64,26 @@ def count_syllables(word):
 
 def classify_difficulty(text):
     """Classify sentence difficulty based on Flesch Reading Ease score"""
+    words = text.split()
+    word_count = len(words)
+
+    # Flesch formula is unreliable for very short inputs (< 4 words).
+    # For those, use average syllables per word as the metric instead.
+    if word_count < 4:
+        avg_syllables = sum(count_syllables(w) for w in words) / word_count if word_count > 0 else 1
+        if avg_syllables <= 2:
+            return "Easy"
+        elif avg_syllables <= 3:
+            return "Medium"
+        else:
+            return "Hard"
+
     flesch_score = calculate_flesch_reading_ease(text)
-    
+
     # Classification based on Flesch Reading Ease scale
     # 70+: Easy (Fairly Easy and higher)
     # 50-69: Medium (Standard to Fairly Difficult)
     # Below 50: Hard (Difficult and Very Difficult)
-    
     if flesch_score >= 70:
         return "Easy"
     elif flesch_score >= 50:
