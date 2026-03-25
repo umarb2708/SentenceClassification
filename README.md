@@ -277,4 +277,4 @@ For issues or questions, please refer to the documentation or create an issue in
 
 ---
 
-**Made with ❤️ to improve reading accessibility for everyone**
+**Made with ❤️ to improve reading accessibility for everyone** 
